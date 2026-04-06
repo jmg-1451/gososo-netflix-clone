@@ -24,10 +24,6 @@ function Row({title, fetchUrl, isLargeRow}) {
   
 
 
-    const opts = {
-        height: "390",
-        width: "100%",
-    };
 
     const handleClick = async (movie) => {
         if (selectedMovie?.id === movie.id) {
