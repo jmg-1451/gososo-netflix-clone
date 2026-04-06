@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from './axios';
 import './Row.css';
 import YouTube from 'react-youtube';
@@ -9,7 +9,7 @@ const base_url = "https://image.tmdb.org/t/p/original/";
 function Row({title, fetchUrl, isLargeRow}) {
     const [movies, setMovies] = useState([])
     const [trailerUrl, setTrailerUrl] = useState("");
-    const scrollRef = useRef(null);
+
 
     useEffect  (() => {
         async function fetchData() {
@@ -45,12 +45,6 @@ function Row({title, fetchUrl, isLargeRow}) {
 
     };
     
-    const handleWheel = (e) => {
-        if (e.deltaY !== 0) {
-            e.currentTarget.scrollLeft += e.deltaY;
-            e.preventDefault();
-        }
-    };
 
     console.table(movies);
 
