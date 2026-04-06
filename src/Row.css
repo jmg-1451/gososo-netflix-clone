@@ -10,18 +10,23 @@
     overflow-y: hidden;
     overflow-x: scroll;
     padding: 20px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 
 }
 
+
+
 .row__posters::-webkit-scrollbar {
-    display: hidden;
+    display: none;
 }
 
 
 .row__poster {
+    display: flex;
     object-fit: contain;
     width: 100%;
-    max-height: 100px;
+    max-height: 200px;
     transition: transform 450ms;
     margin-right: 10px;
 }
@@ -37,3 +42,4 @@
 .row__posterLarge:hover {
     transform: scale(1.09);
 }
+
