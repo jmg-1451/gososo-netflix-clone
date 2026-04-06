@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import axios from './axios';
 import './Row.css';
-import YouTube from 'react-youtube';
-import movieTrailer from 'movie-trailer';
 
-const base_url = "https://image.tmdb.org/t/p/original/";
+
+const base_url = "https://image.tmdb.org/t/p/w500/";
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 function Row({title, fetchUrl, isLargeRow}) {
     const [movies, setMovies] = useState([])
     const [trailerUrl, setTrailerUrl] = useState("");
+    const[selectedMovie, setSelectedMovie] = useState(null);
 
 
     useEffect  (() => {
@@ -20,30 +21,31 @@ function Row({title, fetchUrl, isLargeRow}) {
      fetchData();
     }, [fetchUrl]);
 
+  
+
+
     const opts = {
-        height: '390',
-        width: '100%',
-        playerVars: {
-            autoplay: 1,
-        }
+        height: "390",
+        width: "100%",
     };
 
-
-    const handleClick = (movie) => {
-        if (trailerUrl) {
+    const handleClick = async (movie) => {
+        if (selectedMovie?.id === movie.id) {
+            setSelectedMovie(null);
             setTrailerUrl('');
         } else {
-            movieTrailer(movie?.name || "")
-                .then((url) => {
-
-                    const urlParams = new URLSearchParams(new URL(url).search);
-                    setTrailerUrl(urlParams.get('v'));
-            })
-            
-                .catch((error) => console.log(error));
+            setSelectedMovie(movie);
+            try {
+                let type = movie.media_type || (movie.first_air_date ? "tv" : "movie");
+                const res = await axios.get(`https://api.themoviedb.org/3/${type}/${movie.id}/videos?api_key=${API_KEY}`);
+                const video = res.data.results.find((v) => v.type === "Trailer") || res.data.results[0];
+                setTrailerUrl(video?.key || "");
+            } catch (error) {
+                console.log(error);
+            }
         }
-
     };
+
     
 
     console.table(movies);
@@ -66,7 +68,21 @@ function Row({title, fetchUrl, isLargeRow}) {
             ))}
             </div>
             
-           {trailerUrl && <YouTube videoID={trailerUrl} opts={opts} />}
+            {trailerUrl && (
+                <div className="row__videoContainer">
+                    <iframe
+                    
+                        height="450px"
+                        width="100%" 
+                        src={`https://www.youtube.com/embed/${trailerUrl}?autoplay=1`}
+                        aspectRatio="16:9"
+                        frameBorder="0"
+                        allowFullScreen
+                        title="Movie Trailer"
+                        
+                    />
+                </div>
+            )}
         
         </div>
      )

@@ -43,3 +43,18 @@
     transform: scale(1.09);
 }
 
+.row__videoContainer {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.row__videoContainer iframe {
+    aspect-ratio: 16 / 9;
+    border: none;
+    height: 100%;
+
+
+}
+
