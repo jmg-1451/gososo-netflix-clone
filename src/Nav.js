@@ -18,7 +18,12 @@ function Nav() {
         };
     }, []);
 
-   
+    const handleLogoClick = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
 
                 
 
@@ -28,7 +33,9 @@ function Nav() {
         <img 
             className='nav__logo'
             src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
-             alt="Netflix Logo"            
+             alt="Netflix Logo"
+            onClick={handleLogoClick}
+            style={{ cursor: 'pointer' }}
         
         />
 
